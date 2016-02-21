@@ -1,5 +1,8 @@
 language: clojure
 
+jdk:
+  - oraclejdk8
+
 install:
   - mkdir deps
   - (cd deps && curl -L https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh > boot && chmod 755 boot)
