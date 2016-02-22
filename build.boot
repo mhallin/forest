@@ -13,7 +13,7 @@
 (require '[crisptrutski.boot-cljs-test :refer [test-cljs]])
 
 (task-options! pom {:project 'forest
-                    :version "0.1.1"
+                    :version "0.1.2"
                     :url "https://github.com/mhallin/forest"
                     :description "CSS modules for ClojureScript"}
                push {:repo "clojars"})
