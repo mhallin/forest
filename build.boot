@@ -3,7 +3,7 @@
  :resource-paths #{"src"}
  :dependencies '[[org.clojure/clojurescript   "1.7.228"]
                  [adzerk/boot-cljs            "1.7.228-1" :scope "test"]
-                 [adzerk/boot-test            "1.1.0"     :scope "test"]
+                 [adzerk/boot-test            "1.1.1"     :scope "test"]
                  [crisptrutski/boot-cljs-test "0.2.1"     :scope "test"]])
 
 (require '[adzerk.boot-cljs            :refer [cljs]])
