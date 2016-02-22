@@ -29,3 +29,8 @@
   (comp (testing)
         (test)
         (test-cljs)))
+
+(deftask deploy []
+  (comp (pom)
+        (jar)
+        (push)))
