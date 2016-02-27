@@ -52,6 +52,55 @@ becomes independent and won't conflict with anything else.
    ;; Or with something like Sablono
    (html [:div {:class my-class} "Bold text"])
 
+
+Class composition/inheritance
+-----------------------------
+
+Like the ``@extend`` keyword from Sass, classes can extend each
+other. Use the ``:composes`` keyword in the style declaration:
+
+.. code-block:: clojure
+
+   (defstylesheet my-stylesheet
+     [.base {:padding-bottom "16px"}]
+
+     [.heading {:compose base
+                :font-weight "bold"}]
+     [.copy {:compose base
+             :font-size "16px"}])
+
+However, unlike Sass, this does not duplicate selectors in the
+stylesheet, but rather modifies the exposed class name to include all
+base classes. Multiple classes can be extended by specifying a vector
+or list of classes.
+
+Since composition works on class name identifiers, you can use
+Clojure's built-in features for building modules:
+
+.. code-block:: clojure
+
+   ;; base.cljs
+   (ns base
+     (:require [forest.macros :refer-macros [defstylesheet]]))
+
+   (defstylesheet base-styles
+     [.base {:padding-bottom "16px"}])
+
+   ;; typography.cljs
+   (ns typography
+     (:require [base :as base]
+               [forest.macros :refer-macros [defstylesheet]]))
+
+   (defstylesheet typography-styles
+     [.heading {:compose base/base
+                :font-weight "bold"}]
+     [.copy {:compose base/base
+             :font-size "16px"}])
+
+
+Class name utilities
+--------------------
+
 There's also a ``class-names`` function that can be useful for
 combining classes when building interfaces:
 
