@@ -64,9 +64,9 @@ other. Use the ``:composes`` keyword in the style declaration:
    (defstylesheet my-stylesheet
      [.base {:padding-bottom "16px"}]
 
-     [.heading {:compose base
+     [.heading {:composes base
                 :font-weight "bold"}]
-     [.copy {:compose base
+     [.copy {:composes base
              :font-size "16px"}])
 
 However, unlike Sass, this does not duplicate selectors in the
@@ -92,9 +92,9 @@ Clojure's built-in features for building modules:
                [forest.macros :refer-macros [defstylesheet]]))
 
    (defstylesheet typography-styles
-     [.heading {:compose base/base
+     [.heading {:composes base/base
                 :font-weight "bold"}]
-     [.copy {:compose base/base
+     [.copy {:composes base/base
              :font-size "16px"}])
 
 
