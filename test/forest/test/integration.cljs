@@ -1,9 +1,12 @@
 (ns forest.test.integration
   (:require [cljs.test :refer-macros [deftest testing is]]
             [forest.macros :as forest :include-macros true]
-            [forest.runtime :as fr]))
+            [forest.runtime :as fr]
+
+            [forest.test.utils :as utils]))
 
 (forest/defstylesheet testing
+  {:name-mangler [:prefix "test__"]}
   [.class-name {:font-weight "bold"}])
 
 
@@ -24,7 +27,7 @@
 
 (deftest stylesheet
   (testing "Exported names"
-    (is (string? class-name))
+    (is (= "test__class-name" class-name))
     (is (some? testing)))
 
   (testing "Applied styles"
