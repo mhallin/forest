@@ -21,7 +21,6 @@
 (defn mangle-selector [mangler selector]
   (case (selector-kind selector)
     :class (str "." (selector-safe (mangler (subs selector 1))))
-    :id (str "#" (selector-safe (mangler (subs selector 1))))
     selector))
 
 (defn serialize-selector [mangler selector]

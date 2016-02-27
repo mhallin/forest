@@ -33,7 +33,7 @@
   (testing "Selector mangling"
     (are [x y] (= (selectors/mangle-selector test-selector-mangler x) y)
       ".class-name" ".test__class-name"
-      "#id" "#test__id"
+      "#id" "#id"
       "element" "element")
 
     (is (thrown? Exception (selectors/mangle-selector test-selector-mangler
@@ -44,8 +44,8 @@
       ".class-name" ".test__class-name"
       '.class-name ".test__class-name"
       :.class-name ".test__class-name"
-      "#id" "#test__id"
-      :#id "#test__id"
+      "#id" "#id"
+      :#id "#id"
       "element" "element"
       'element "element"
       :element "element")

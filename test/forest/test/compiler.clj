@@ -10,7 +10,7 @@
   (testing "Selectors"
     (are [x y] (= (compiler/compile-selectors test-selector-mangler x) y)
       `[.class-name element] ".test__class-name,\nelement"
-      `[:#id element] "#test__id,\nelement"))
+      `[:#id element] "#id,\nelement"))
 
   (testing "Declarations"
     (are [x y] (= (compiler/compile-declaration x) y)
@@ -30,4 +30,4 @@
       ".test__class-name\n{\n  font-size: 12px\n}"
 
       `[.class-name h1 :#id {:font-size "12px"}]
-      ".test__class-name,\nh1,\n#test__id\n{\n  font-size: 12px\n}")))
+      ".test__class-name,\nh1,\n#id\n{\n  font-size: 12px\n}")))
