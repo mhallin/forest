@@ -12,11 +12,18 @@
 (require '[adzerk.boot-test            :refer [test]])
 (require '[crisptrutski.boot-cljs-test :refer [test-cljs]])
 
-(task-options! pom {:project 'forest
-                    :version "0.1.4"
-                    :url "https://github.com/mhallin/forest"
-                    :description "CSS modules for ClojureScript"}
-               push {:repo "clojars"})
+(task-options!
+ pom {:project 'forest
+      :version "0.1.4"
+      :url "https://github.com/mhallin/forest"
+      :description "CSS modules for ClojureScript"
+      :scm {:developerConnection "scm:git:ssh://git@github.com:mhallin/forest.git"
+            :connection "scm:git:git://github.com:mhallin/forest.git"
+            :url "https://github.com/mhallin/forest"}
+      :license {"MIT" "https://github.com/mhallin/forest/blob/master/LICENSE"}
+      :developers {"Magnus Hallin" "mhallin@fastmail.com"}}
+
+ push {:repo "clojars"})
 
 (deftask testing []
   (task-options! test-cljs {:js-env :phantom
