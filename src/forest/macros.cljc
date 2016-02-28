@@ -1,5 +1,6 @@
 (ns forest.macros
-  (:require #?(:clj [forest.compiler :as compiler])))
+  (:require #?(:clj [forest.compiler :as compiler])
+            #?(:cljs forest.runtime)))
 
 #?(:clj
    (def do-defstylesheet compiler/do-defstylesheet)
