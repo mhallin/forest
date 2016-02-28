@@ -5,6 +5,10 @@
 Unreleased_
 ===========
 
+Bugfixes:
+
+* The ``composes`` property removed from the generated CSS output.
+
 
 0.1.3_ – 2016-02-28
 ===================

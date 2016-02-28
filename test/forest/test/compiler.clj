@@ -30,4 +30,7 @@
       ".test__class-name\n{\n  font-size: 12px\n}"
 
       `[.class-name h1 :#id {:font-size "12px"}]
-      ".test__class-name,\nh1,\n#id\n{\n  font-size: 12px\n}")))
+      ".test__class-name,\nh1,\n#id\n{\n  font-size: 12px\n}"
+
+      `[.class-name {:font-size "12px" :composes class-name}]
+      ".test__class-name\n{\n  font-size: 12px\n}")))

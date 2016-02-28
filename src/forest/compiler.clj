@@ -17,8 +17,14 @@
     `(str ~lhs ~value)))
 
 
+(defn valid-property? [declaration]
+  (let [[prop _] declaration]
+    (not (#{:composes} prop))))
+
+
 (defn compile-declaration-block [block]
-  `(s/join ";\n" ~(mapv compile-declaration block)))
+  `(s/join ";\n" ~(mapv compile-declaration
+                        (filter valid-property? block))))
 
 
 (defn compile-ruleset [mangler ruleset]
