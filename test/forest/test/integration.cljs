@@ -9,6 +9,7 @@
   {:name-mangler [:prefix "test__"]}
 
   [.basic-1 {:font-weight "bold"}]
+  [.basic-1:hover {:font-color "red"}]
   [.basic-2 {:text-transform "uppercase"}]
 
   [.extend-1 {:composes basic-1
@@ -47,6 +48,7 @@
 (deftest stylesheet
   (testing "Exported names"
     (is (= "test__basic-1" basic-1))
+    (is (= "test__basic-1:hover" basic-1:hover))
     (is (= "test__basic-1 test__extend-1" extend-1))
     (is (= "test__basic-1 test__extend-1 test__extend-2" extend-2))
     (is (= "test__basic-1 test__basic-2 test__extend-multiple" extend-multiple))
