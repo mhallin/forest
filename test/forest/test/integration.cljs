@@ -9,6 +9,7 @@
   {:name-mangler [:wrap "test__" "__test"]}
 
   [.basic-1 {:font-weight "bold"}]
+  [.basic-1:hover {:font-color "red"}]
   [.basic-2 {:text-transform "uppercase"}]
 
   [.extend-1 {:composes basic-1

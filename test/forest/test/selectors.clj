@@ -11,7 +11,8 @@
   (testing "Selector safe names"
     (are [x y] (= (selectors/selector-safe x) y)
       ".class-name" "_class-name"
-      "a.b/item" "a_b_item"))
+      "a.b/item" "a_b_item"
+      ".class-name:hover" "_class-name:hover"))
 
   (testing "Normalized selectors"
     (are [x y] (= (selectors/normalize-selector x) y)
