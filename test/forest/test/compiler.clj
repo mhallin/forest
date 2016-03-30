@@ -9,7 +9,7 @@
 (deftest compiler
   (testing "Selectors"
     (are [x y] (= (compiler/compile-selectors test-selector-mangler x) y)
-      `[.class-name element] ".test__class-name,\nelement"
+      `[.class-name element] ".test__class-name__test,\nelement"
       `[:#id element] "#id,\nelement"))
 
   (testing "Declarations"
@@ -27,10 +27,10 @@
   (testing "Rulesets"
     (are [x y] (= (eval (compiler/compile-ruleset test-selector-mangler x)) y)
       `[.class-name {:font-size "12px"}]
-      ".test__class-name\n{\n  font-size: 12px\n}"
+      ".test__class-name__test\n{\n  font-size: 12px\n}"
 
       `[.class-name h1 :#id {:font-size "12px"}]
-      ".test__class-name,\nh1,\n#id\n{\n  font-size: 12px\n}"
+      ".test__class-name__test,\nh1,\n#id\n{\n  font-size: 12px\n}"
 
       `[.class-name {:font-size "12px" :composes class-name}]
-      ".test__class-name\n{\n  font-size: 12px\n}")))
+      ".test__class-name__test\n{\n  font-size: 12px\n}")))

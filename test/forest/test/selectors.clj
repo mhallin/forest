@@ -33,7 +33,7 @@
 
   (testing "Selector mangling"
     (are [x y] (= (selectors/mangle-selector test-selector-mangler x) y)
-      ".class-name" ".test__class-name"
+      ".class-name" ".test__class-name__test"
       "#id" "#id"
       "element" "element")
 
@@ -42,9 +42,9 @@
 
   (testing "Selector serialization"
     (are [x y] (= (selectors/serialize-selector test-selector-mangler x) y)
-      ".class-name" ".test__class-name"
-      '.class-name ".test__class-name"
-      :.class-name ".test__class-name"
+      ".class-name" ".test__class-name__test"
+      '.class-name ".test__class-name__test"
+      :.class-name ".test__class-name__test"
       "#id" "#id"
       :#id "#id"
       "element" "element"

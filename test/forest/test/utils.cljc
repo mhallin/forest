@@ -1,4 +1,4 @@
 (ns forest.test.utils)
 
 (defn test-selector-mangler [selector]
-  (str "test__" selector))
+  (str "test__" selector "__test"))
