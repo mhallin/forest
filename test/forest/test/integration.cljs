@@ -8,8 +8,9 @@
 (forest/defstylesheet testing
   {:name-mangler [:wrap "test__" "__test"]}
 
-  [.basic-1 {:font-weight "bold"}]
-  [.basic-1:hover {:font-color "red"}]
+  [.basic-1 {:font-weight "bold"
+             :font-size "12px"}]
+  [.basic-1::before {:font-size "14px"}]
   [.basic-2 {:text-transform "uppercase"}]
 
   [.extend-1 {:composes basic-1
@@ -24,10 +25,10 @@
   [.extend-external {:composes [basic-1 basic-2]}])
 
 
-(defn compute-styles [e]
+(defn compute-styles [e pseudo-element]
   (let [body (js/document.querySelector "body")]
     (.appendChild body e)
-    (let [style (js/window.getComputedStyle e)]
+    (let [style (js/window.getComputedStyle e pseudo-element)]
       style)))
 
 (defn element-with-class [class]
@@ -35,10 +36,10 @@
     (set! (.-className e) class)
     e))
 
-(defn applied-style [class]
+(defn applied-style [class pseudo-element]
   (fr/update-stylesheet! testing)
   (let [elem (element-with-class class)
-        style (compute-styles elem)]
+        style (compute-styles elem pseudo-element)]
     style))
 
 (deftest environment
@@ -55,9 +56,10 @@
 
   (testing "Applied styles"
     (are [class accessor expected-value]
-        (= (accessor (applied-style class)) expected-value)
+        (= (accessor (applied-style class nil)) expected-value)
 
       basic-1 .-fontWeight "bold"
+      basic-1 .-fontSize "12px"
       basic-1 .-float "none"
 
       basic-2 .-fontWeight "normal"
@@ -76,4 +78,10 @@
 
       extend-external .-fontWeight "bold"
       extend-external .-float "none"
-      extend-external .-textTransform "uppercase")))
+      extend-external .-textTransform "uppercase"))
+
+  (testing "Applied pseudo element styles"
+    (are [class accessor expected-value]
+        (= (accessor (applied-style class "::before")) expected-value)
+
+      basic-1 .-fontSize "14px")))
