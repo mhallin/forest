@@ -6,7 +6,7 @@
             [forest.test.utils :as utils]))
 
 (forest/defstylesheet testing
-  {:name-mangler [:prefix "test__"]}
+  {:name-mangler [:wrap "test__" "__test"]}
 
   [.basic-1 {:font-weight "bold"}]
   [.basic-2 {:text-transform "uppercase"}]
@@ -46,10 +46,10 @@
 
 (deftest stylesheet
   (testing "Exported names"
-    (is (= "test__basic-1" basic-1))
-    (is (= "test__basic-1 test__extend-1" extend-1))
-    (is (= "test__basic-1 test__extend-1 test__extend-2" extend-2))
-    (is (= "test__basic-1 test__basic-2 test__extend-multiple" extend-multiple))
+    (is (= "test__basic-1__test" basic-1))
+    (is (= "test__basic-1__test test__extend-1__test" extend-1))
+    (is (= "test__basic-1__test test__extend-1__test test__extend-2__test" extend-2))
+    (is (= "test__basic-1__test test__basic-2__test test__extend-multiple__test" extend-multiple))
     (is (some? testing)))
 
   (testing "Applied styles"

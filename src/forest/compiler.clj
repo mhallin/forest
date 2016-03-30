@@ -50,9 +50,9 @@
   x)
 
 
-(defn make-prefix-mangler [prefix]
+(defn make-wrap-mangler [[prefix suffix]]
   (fn [style-id x]
-    (str prefix x)))
+    (str prefix x suffix)))
 
 
 (defn make-selector-def [mangler composition selector]
@@ -81,8 +81,8 @@
      (cond (= name-mangler :default) default-mangler
            (= name-mangler :identity) identity-mangler
 
-           (and (vector? name-mangler) (= (first name-mangler) :prefix))
-           (make-prefix-mangler (second name-mangler))
+           (and (vector? name-mangler) (= (first name-mangler) :wrap))
+           (make-wrap-mangler (rest name-mangler))
 
            :else (assert false "Can't create name mangler")))
 
