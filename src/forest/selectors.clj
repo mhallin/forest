@@ -3,7 +3,7 @@
 
 
 (defn- selector-safe [name]
-  (s/replace (str name) #"[^-A-Za-z0-9:]" "_"))
+  (s/replace (str name) #"[^-A-Za-z0-9]" "_"))
 
 (defn normalize-selector [selector]
   (cond (symbol? selector) (name selector)
