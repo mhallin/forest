@@ -55,26 +55,24 @@
     (str prefix x suffix)))
 
 
-(defn make-selector-def [mangler composition selector]
-     (let [name (symbol (subs selector 1))
-           value (subs (selectors/serialize-selector mangler selector) 1)
+(defn make-selector-def [mangler composition [ident-type ident]]
+  (let [name (symbol (subs ident 1))
+        value (subs (selectors/serialize-selector mangler ident) 1)
 
-           value-code
-           (cond (or (vector? composition) (seq? composition))
-                 `(str (clojure.string/join " " ~composition) " " ~value)
+        value-code
+        (cond (or (vector? composition) (seq? composition))
+              `(str (clojure.string/join " " ~composition) " " ~value)
 
-                 composition `(str ~composition " " ~value)
-                 :else value)]
-       `(def ~name ~value-code)))
+              composition `(str ~composition " " ~value)
+              :else value)]
+    `(def ~name ~value-code)))
 
 
 (defn make-selector-defs [mangler ruleset]
-     (let [selectors (filter #(#{:class :id} (selectors/selector-kind %))
-                             (map selectors/normalize-selector
-                                  (butlast ruleset)))
-           composition (:composes (last ruleset))
-           defs (map (partial make-selector-def mangler composition) selectors)]
-       `(do ~@defs)))
+  (let [identifiers (apply concat (map selectors/identifiers-in-selector (butlast ruleset)))
+        composition (:composes (last ruleset))
+        defs (map (partial make-selector-def mangler composition) identifiers)]
+    `(do ~@defs)))
 
 
 (defn make-mangler [name-mangler]

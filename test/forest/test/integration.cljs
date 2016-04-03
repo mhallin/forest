@@ -24,6 +24,12 @@
 (forest/defstylesheet other-testing
   [.extend-external {:composes [basic-1 basic-2]}])
 
+(forest/defstylesheet combined-selector-testing
+  {:name-mangler [:wrap "test__" "__test"]}
+
+  [(descendant .desc-parent .desc-child) {:font-weight "bold"}]
+  [(> .immediate-parent .immediate-child) {:font-weight "bold"}])
+
 
 (defn compute-styles [e pseudo-element]
   (let [body (js/document.querySelector "body")]
@@ -52,6 +58,10 @@
     (is (= "test__basic-1__test test__extend-1__test" extend-1))
     (is (= "test__basic-1__test test__extend-1__test test__extend-2__test" extend-2))
     (is (= "test__basic-1__test test__basic-2__test test__extend-multiple__test" extend-multiple))
+    (is (= "test__desc-parent__test" desc-parent))
+    (is (= "test__desc-child__test" desc-child))
+    (is (= "test__immediate-parent__test" immediate-parent))
+    (is (= "test__immediate-child__test" immediate-child))
     (is (some? testing)))
 
   (testing "Applied styles"

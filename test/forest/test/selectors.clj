@@ -7,9 +7,12 @@
 
 (def invalid-selector ["invalid"])
 
+(def serialize-selector
+  (partial selectors/serialize-selector test-selector-mangler))
+
 (deftest selectors
-  (testing "Selector serialization"
-    (are [x y] (= (selectors/serialize-selector test-selector-mangler x) y)
+  (testing "Basic selector serialization"
+    (are [x y] (= (serialize-selector x) y)
       ".class-name" ".test__class-name__test"
       '.class-name ".test__class-name__test"
       :.class-name ".test__class-name__test"
@@ -19,10 +22,18 @@
       'element "element"
       :element "element")
 
-    (is (thrown? Exception (selectors/serialize-selector test-selector-mangler
-                                                         invalid-selector))))
+    (is (thrown? Exception (serialize-selector invalid-selector))))
 
   (testing "Pseudo element serialization"
-    (are [x y] (= (selectors/serialize-selector test-selector-mangler x) y)
+    (are [x y] (= (serialize-selector x) y)
       ".class-name:hover" ".test__class-name__test:hover"
-      ".class-name::before" ".test__class-name__test::before")))
+      ".class-name::before" ".test__class-name__test::before"))
+
+  (testing "Chained class selectors"
+    (are [x y] (= (serialize-selector x) y)
+      ".a.b" ".test__a__test.test__b__test"))
+
+  (testing "Combinator selector serialization"
+    (are [x y] (= (serialize-selector x) y)
+      '(descendant .upper .lower) ".test__upper__test .test__lower__test"
+      '(> .upper .lower) ".test__upper__test > .test__lower__test")))
