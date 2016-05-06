@@ -69,7 +69,8 @@
 
 
 (defn make-selector-defs [mangler ruleset]
-  (let [identifiers (apply concat (map selectors/identifiers-in-selector (butlast ruleset)))
+  (let [identifiers (dedupe
+                     (apply concat (map selectors/identifiers-in-selector (butlast ruleset))))
         composition (:composes (last ruleset))
         defs (map (partial make-selector-def mangler composition) identifiers)]
     `(do ~@defs)))
