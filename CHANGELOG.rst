@@ -5,6 +5,9 @@
 Unreleased_
 ===========
 
+0.2.0_ – 2016-05-06
+===================
+
 Features:
 
 * Composed selectors, inital support for descendant (i.e. the "space"
@@ -66,7 +69,8 @@ Initial release:
 * Basic CSS module support
 
 
-.. _Unreleased: https://github.com/mhallin/forest/compare/release/v0.1.4...HEAD
+.. _Unreleased: https://github.com/mhallin/forest/compare/release/v0.2.0...HEAD
+.. _0.2.0: https://github.com/mhallin/forest/compare/release/v0.1.4...release/v0.2.0
 .. _0.1.4: https://github.com/mhallin/forest/compare/release/v0.1.3...release/v0.1.4
 .. _0.1.3: https://github.com/mhallin/forest/compare/release/v0.1.2...release/v0.1.3
 .. _0.1.2: https://github.com/mhallin/forest/compare/release/v0.1.1...release/v0.1.2
