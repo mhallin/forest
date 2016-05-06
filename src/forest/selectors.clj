@@ -19,11 +19,11 @@
           :else (throw (Exception. (str "Invalid selector: " selector))))))
 
 (defn- mangle-selector [mangler selector]
-  (condp = [(:type selector) (:operator selector)]
-    [:basic :class] (str "." (selector-safe (mangler (subs (:argument selector) 1))))
-    [:basic :sequence] (s/join "" (map (partial mangle-selector mangler) (:argument selector)))
-    [:combined 'descendant] (s/join " " (map (partial mangle-selector mangler) (:arguments selector)))
-    [:combined '>] (s/join " > " (map (partial mangle-selector mangler) (:arguments selector)))
+  (condp = [(:type selector) (name (:operator selector))]
+    [:basic "class"] (str "." (selector-safe (mangler (subs (:argument selector) 1))))
+    [:basic "sequence"] (s/join "" (map (partial mangle-selector mangler) (:argument selector)))
+    [:combined "descendant"] (s/join " " (map (partial mangle-selector mangler) (:arguments selector)))
+    [:combined ">"] (s/join " > " (map (partial mangle-selector mangler) (:arguments selector)))
     (:argument selector)))
 
 (defn- extract-identifiers [selector]
@@ -82,7 +82,7 @@
 
 (defn- parse-combined-selector [selector]
   (let [[op & args] selector]
-    (when-not (#{'descendant '>} op)
+    (when-not (#{"descendant" ">"} (name op))
       (throw (Exception. (str "Invalid selector combinator: " op))))
     {:operator op
      :type :combined
@@ -101,12 +101,25 @@
 (defn identifiers-in-selector [selector]
   (extract-identifiers (parse-selector selector)))
 
+(defn selector-valid-for-composition? [selector]
+  (letfn [(is-valid? [selector]
+            (condp = [(:type selector) (:operator selector)]
+              [:basic :class] true
+              [:basic :sequence] (every? is-valid? (:argument selector))
+
+              false))]
+    (is-valid? (parse-selector selector))))
+
 (comment
   (serialize-selector identity ["invalid"])
-  (serialize-selector #(str "X_" % "_X") '(> ".a" ".b"))
+  (serialize-selector #(str "X_" % "_X") '(">" ".a" ".b"))
   (serialize-selector #(str "X_" % "_X") '(descendant ".a" ".b"))
   (serialize-selector #(str "X_" % "_X") ".class-name")
 
   (identifiers-in-selector ".class-name#hej")
   (identifiers-in-selector '(descendant ".a" ".b"))
+
+  (selector-valid-for-composition? ".class-name")
+  (parse-selector ".class-name")
+
   )

@@ -27,10 +27,19 @@
                         (filter valid-property? block))))
 
 
+(defn validate-for-composition [selectors]
+  (when (not (every? selectors/selector-valid-for-composition? selectors))
+    (throw (Exception.
+            (str ":composes can only be used with basic selectors, error with "
+                 selectors)))))
+
+
 (defn compile-ruleset [mangler ruleset]
   (let [selectors (compile-selectors mangler
                                      (butlast ruleset))
         declaration-block (compile-declaration-block (last ruleset))]
+    (when (:composes (last ruleset))
+      (validate-for-composition (butlast ruleset)))
     `(str ~selectors
           "\n{\n"
           ~declaration-block

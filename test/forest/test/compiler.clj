@@ -33,4 +33,11 @@
       ".test__class-name__test,\nh1,\n#id\n{\n  font-size: 12px\n}"
 
       `[.class-name {:font-size "12px" :composes class-name}]
-      ".test__class-name__test\n{\n  font-size: 12px\n}")))
+      ".test__class-name__test\n{\n  font-size: 12px\n}")
+
+    (is (thrown-with-msg?
+         Exception
+         #":composes can only be used with basic selectors"
+         (compiler/compile-ruleset
+          test-selector-mangler
+          `[(">" .base .sub) {:font-size "12px" :composes class-name}])))))
