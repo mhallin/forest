@@ -18,11 +18,14 @@
   [.extend-2 {:composes extend-1
               :background-image "url(data:1)"}]
 
-  [.extend-multiple {:composes [basic-1 basic-2]}])
+  [.extend-multiple {:composes [basic-1 basic-2]}]
+
+  [.extend-3 .extend-4 {:composes [basic-1]}])
 
 
 (forest/defstylesheet other-testing
   [.extend-external {:composes [basic-1 basic-2]}])
+
 
 (forest/defstylesheet combined-selector-testing
   {:name-mangler [:wrap "test__" "__test"]}
@@ -58,6 +61,10 @@
     (is (= "test__basic-1__test test__extend-1__test" extend-1))
     (is (= "test__basic-1__test test__extend-1__test test__extend-2__test" extend-2))
     (is (= "test__basic-1__test test__basic-2__test test__extend-multiple__test" extend-multiple))
+
+    (is (= "test__basic-1__test test__extend-3__test" extend-3))
+    (is (= "test__basic-1__test test__extend-4__test" extend-4))
+
     (is (= "test__desc-parent__test" desc-parent))
     (is (= "test__desc-child__test" desc-child))
     (is (= "test__immediate-parent__test" immediate-parent))
