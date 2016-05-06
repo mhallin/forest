@@ -5,9 +5,23 @@
 Unreleased_
 ===========
 
+Features:
+
+* Composed selectors, inital support for descendant (i.e. the "space"
+  operator) and immediate child (i.e. the ">" operator).
+
+
+0.1.4_ – 2016-03-31
+===================
+
+Features:
+
+* Support for pseudo elements and pseudo classes.
+
 Bugfixes:
 
 * The ``composes`` property removed from the generated CSS output.
+* Improve stability of CSS selector name mangling
 
 
 0.1.3_ – 2016-02-28
@@ -52,7 +66,8 @@ Initial release:
 * Basic CSS module support
 
 
-.. _Unreleased: https://github.com/mhallin/forest/compare/release/v0.1.3...HEAD
+.. _Unreleased: https://github.com/mhallin/forest/compare/release/v0.1.4...HEAD
+.. _0.1.4: https://github.com/mhallin/forest/compare/release/v0.1.3...release/v0.1.4
 .. _0.1.3: https://github.com/mhallin/forest/compare/release/v0.1.2...release/v0.1.3
 .. _0.1.2: https://github.com/mhallin/forest/compare/release/v0.1.1...release/v0.1.2
 .. _0.1.1: https://github.com/mhallin/forest/compare/release/v0.1.0...release/v0.1.1
