@@ -98,6 +98,36 @@ Clojure's built-in features for building modules:
              :font-size "16px"}])
 
 
+Complex selectors
+-----------------
+
+Forest has support for descendant and immediate child selectors. When
+using these, the ``:composes`` feature becomes unavailable, since it's
+not well-define how these features interact. This limitation is
+inherited from the `CSS Modules`_ spec, but might be lifted in the
+future.
+
+Descendant selectors are used like follows:
+
+.. code-block:: clojure
+
+   (defstylesheet styles
+     [(descendant .container .element)
+       {:padding-bottom "16px"}]
+     ;; Translated into the selector ".container .element"
+
+     [(> .parent .immediate-child)
+      {:font-size "16px"}]
+     ;; Translated into the selector ".container > .element"
+   )
+
+The choice of the rather verbose word ``descendant`` is intentional -
+while the arbitrary descendant selector is a powerful concept, it's
+often not suitable in larger CSS codebases. They can in most cases be
+replaced by immediate child selectors, which don't suffer from the
+same scalability problems.
+
+
 Class name utilities
 --------------------
 
@@ -153,3 +183,4 @@ Cider_, run:
 .. _Garden: https://github.com/noprompt/garden
 .. _Boot: https:://boot-clj.com
 .. _Cider: https://github.com/clojure-emacs/cider
+.. _CSS modules: https://github.com/css-modules/css-modules
