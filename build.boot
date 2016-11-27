@@ -1,10 +1,10 @@
 (set-env!
  :source-paths #{"src"}
  :resource-paths #{"src"}
- :dependencies '[[org.clojure/clojurescript   "1.8.40"]
+ :dependencies '[[org.clojure/clojurescript   "1.9.293"]
                  [adzerk/boot-cljs            "1.7.228-1" :scope "test"]
-                 [adzerk/boot-test            "1.1.1"     :scope "test"]
-                 [crisptrutski/boot-cljs-test "0.2.1"     :scope "test"]]
+                 [adzerk/boot-test            "1.1.2"     :scope "test"]
+                 [crisptrutski/boot-cljs-test "0.2.2"     :scope "test"]]
  :license {:name "MIT"
            :url "https://github.com/mhallin/forest/blob/master/LICENSE"})
 
