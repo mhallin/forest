@@ -14,7 +14,7 @@
 
 (task-options!
  pom {:project 'forest
-      :version "0.2.0"
+      :version "0.2.1"
       :url "https://github.com/mhallin/forest"
       :description "CSS modules for ClojureScript"
       :scm {:developerConnection "scm:git:ssh://git@github.com:mhallin/forest.git"

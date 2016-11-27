@@ -5,6 +5,16 @@
 Unreleased_
 ===========
 
+0.2.1_ – 2016-11-27
+===================
+
+Bugfixes:
+
+* Multiple occurrences of the same class name in a stylesheet will not
+  emit multiple ``def``. This fixes compiler warnings that prevented
+  e.g. Figwheel from reloading the code.
+
+
 0.2.0_ – 2016-05-06
 ===================
 
@@ -69,7 +79,8 @@ Initial release:
 * Basic CSS module support
 
 
-.. _Unreleased: https://github.com/mhallin/forest/compare/release/v0.2.0...HEAD
+.. _Unreleased: https://github.com/mhallin/forest/compare/release/v0.2.1...HEAD
+.. _0.2.1: https://github.com/mhallin/forest/compare/release/v0.2.0...release/v0.2.1
 .. _0.2.0: https://github.com/mhallin/forest/compare/release/v0.1.4...release/v0.2.0
 .. _0.1.4: https://github.com/mhallin/forest/compare/release/v0.1.3...release/v0.1.4
 .. _0.1.3: https://github.com/mhallin/forest/compare/release/v0.1.2...release/v0.1.3
