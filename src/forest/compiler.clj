@@ -64,7 +64,7 @@
     (str prefix x suffix)))
 
 
-(defn make-selector-def [mangler composition [ident-type ident]]
+(defn selector-defs-in-rule [mangler composition [ident-type ident]]
   (let [name (symbol (subs ident 1))
         value (subs (selectors/serialize-selector mangler ident) 1)
 
@@ -74,15 +74,27 @@
 
               composition `(str ~composition " " ~value)
               :else value)]
-    `(def ~name ~value-code)))
+    [name value-code]))
 
 
-(defn make-selector-defs [mangler ruleset]
-  (let [identifiers (dedupe
+(defn selector-defs-in-ruleset [mangler ruleset]
+  (let [identifiers (set
                      (apply concat (map selectors/identifiers-in-selector (butlast ruleset))))
-        composition (:composes (last ruleset))
-        defs (map (partial make-selector-def mangler composition) identifiers)]
-    `(do ~@defs)))
+        composition (:composes (last ruleset))]
+    (map (partial selector-defs-in-rule mangler composition) identifiers)))
+
+
+(defn selector-defs-in-stylesheet [mangler stylesheet]
+  (reduce (fn [acc ruleset]
+            (merge acc (into {}
+                             (selector-defs-in-ruleset mangler ruleset))))
+          {}
+          stylesheet))
+
+
+(defn make-selector-defs [mangler stylesheet]
+  (map (fn [[name value]] `(def ~name ~value))
+       (selector-defs-in-stylesheet mangler stylesheet)))
 
 
 (defn make-mangler [name-mangler]
@@ -99,8 +111,7 @@
      (let [update-stylesheet-fn (symbol "forest.runtime" "update-stylesheet!")
            full-name (str (symbol (str *ns*) (name id)))
            mangler (partial (make-mangler (:name-mangler options)) full-name)
-           selector-defs (map (partial make-selector-defs mangler)
-                              stylesheet)
+           selector-defs (make-selector-defs mangler stylesheet)
            stylesheet-source (compile-stylesheet mangler stylesheet)]
        `(do
           ~@selector-defs
