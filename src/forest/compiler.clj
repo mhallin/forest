@@ -14,7 +14,11 @@
 (defn compile-declaration [declaration]
   (let [[prop value] declaration
         lhs (str "  " (name prop) ": ")]
-    `(str ~lhs ~value)))
+    (cond
+      (string? value)  (str lhs value)
+      (number? value)  (str lhs value)
+      (keyword? value) (str lhs (name value))
+      :else            `(str ~lhs ~value))))
 
 
 (defn valid-property? [declaration]
@@ -23,8 +27,12 @@
 
 
 (defn compile-declaration-block [block]
-  `(s/join ";\n" ~(mapv compile-declaration
-                        (filter valid-property? block))))
+  (let [lines (->> block
+                   (filter valid-property?)
+                   (mapv compile-declaration))]
+    (if (every? string? lines)
+      (s/join ";\n" lines)
+      `(s/join ";\n" ~lines))))
 
 
 (defn validate-for-composition [selectors]
@@ -35,20 +43,26 @@
 
 
 (defn compile-ruleset [mangler ruleset]
-  (let [selectors (compile-selectors mangler
-                                     (butlast ruleset))
+  (let [selectors         (compile-selectors mangler (butlast ruleset))
         declaration-block (compile-declaration-block (last ruleset))]
     (when (:composes (last ruleset))
       (validate-for-composition (butlast ruleset)))
-    `(str ~selectors
-          "\n{\n"
-          ~declaration-block
-          "\n}")))
+    (if (string? declaration-block)
+      (str selectors
+        "\n{\n"
+        declaration-block
+        "\n}")
+      `(str ~selectors
+         "\n{\n"
+         ~declaration-block
+         "\n}"))))
 
 
 (defn compile-stylesheet [mangler stylesheet]
-  `(s/join "\n\n" ~(mapv (partial compile-ruleset mangler)
-                         stylesheet)))
+  (let [styles (mapv #(compile-ruleset mangler %) stylesheet)]
+    (if (every? string? styles)
+      (s/join "\n\n" styles)
+      `(s/join "\n\n" ~styles))))
 
 
 (defn default-mangler [style-id x]
