@@ -14,10 +14,9 @@
 
   (testing "Declarations"
     (are [x y] (= (compiler/compile-declaration x) y)
-      `[:font-size "12px"] `(str "  font-size: " "12px")
+      `[:font-size "12px"] "  font-size: 12px"
       `[:font-size some-value] `(str "  font-size: " some-value)
-      `["transition" "width 1s linear"] `(str "  transition: "
-                                              "width 1s linear")))
+      `["transition" "width 1s linear"] "  transition: width 1s linear"))
 
   (testing "Declaration blocks"
     (are [x y] (= (eval (compiler/compile-declaration-block x)) y)
