@@ -118,7 +118,7 @@ Descendant selectors are used like follows:
 
      [(> .parent .immediate-child)
       {:font-size "16px"}]
-     ;; Translated into the selector ".container > .element"
+     ;; Translated into the selector ".container > .immediate-child"
    )
 
 The choice of the rather verbose word ``descendant`` is intentional -
